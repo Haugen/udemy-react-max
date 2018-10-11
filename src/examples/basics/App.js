@@ -7,53 +7,74 @@ class App extends Component {
 
   state = {
     persons: [
-      { name: 'Tobias', age: 32 },
-      { name: 'Anders', age: 32 },
-      { name: 'Fredrik', age: 30 },
-    ]
+      { id: '1', name: 'Tobias', age: 32 },
+      { id: '2', name: 'Anders', age: 32 },
+      { id: '3', name: 'Fredrik', age: 30 },
+    ],
+    displayPersons: false
   };
 
-  switchNameHandler = (newName = "Default value?") => {
-    console.log('Heyah!');
-    this.setState({ persons: [
-      { name: newName, age: 32 },
-      { name: newName, age: 32 },
-      { name: newName, age: 200 },
-    ]});
+  deletePersonHandler = (personIndex) => {
+    // Using spread operator to get a new copy of the state, so we don't update
+    // the state directly
+    const persons = [...this.state.persons];
+    persons.splice(personIndex, 1)
+    this.setState({
+      persons: persons
+    });
   }
 
-  nameChangedHandler = (event) => {
-    this.setState({ persons: [
-      { name: event.target.value, age: 32 },
-      { name: "Anders", age: 32 },
-      { name: "Fredrik", age: 200 },
-    ]});
+  changeNameHandler = (event, personId) => {
+    // First finding the index of the person object we want to update.
+    let personIndex = this.state.persons.findIndex(person => person.id === personId);
+    // Creating a new object with the spread operator from the person object in
+    // the state with our index.
+    let person = {...this.state.persons[personIndex]};
+    person.name = event.target.value;
+
+    // Getting all the persons from the state, and updating the person with out index
+    // to our new person.
+    let persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    // Then, just setting state.
+    this.setState({
+      persons: persons
+    });
+  }
+
+  togglePersons = () => {
+    this.setState({
+      displayPersons: !this.state.displayPersons
+    })
   }
 
   render() {
+    let persons = null;
+
+    if (this.state.displayPersons) {
+      persons = (
+        <div className="toggle-persons">
+          {
+            this.state.persons.map((person, i) => {
+              return (<Person
+                name={person.name}
+                age={person.age}
+                key={person.id}
+                changed={(event) => this.changeNameHandler(event, person.id)}
+                deletePerson={() => this.deletePersonHandler(i)}
+              />);
+            })
+          }       
+        </div>
+      );
+    }
+
     return (
       <div className="App">
         <h1>A React app!</h1>
-        <button onClick={this.switchNameHandler.bind(this, "Default value works!")}>Change name!</button>
-        <Person 
-          key={this.state.persons.indexOf(this.state.persons[0])}
-          name={this.state.persons[0].name}
-          age={this.state.persons[0].age}
-          click={() => this.switchNameHandler()}
-          changed={this.nameChangedHandler}
-        />
-        <Person 
-          key={this.state.persons.indexOf(this.state.persons[1])}
-          name={this.state.persons[1].name}
-          age={this.state.persons[1].age}
-          click={this.switchNameHandler.bind(this, "with new names!")}
-        />
-        <Person 
-          key={this.state.persons.indexOf(this.state.persons[2])}
-          name={this.state.persons[2].name}
-          age={this.state.persons[2].age}
-          click={this.switchNameHandler.bind(this, "And binding this.")}
-        />
+        <button onClick={this.togglePersons}>Toggle persons!</button>
+        {persons}
       </div>
     );
   }
