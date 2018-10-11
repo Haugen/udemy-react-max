@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Person from './Person';
 
+import './index.css';
+
 class App extends Component {
 
   state = {
@@ -20,6 +22,14 @@ class App extends Component {
     ]});
   }
 
+  nameChangedHandler = (event) => {
+    this.setState({ persons: [
+      { name: event.target.value, age: 32 },
+      { name: "Anders", age: 32 },
+      { name: "Fredrik", age: 200 },
+    ]});
+  }
+
   render() {
     return (
       <div className="App">
@@ -30,6 +40,7 @@ class App extends Component {
           name={this.state.persons[0].name}
           age={this.state.persons[0].age}
           click={() => this.switchNameHandler()}
+          changed={this.nameChangedHandler}
         />
         <Person 
           key={this.state.persons.indexOf(this.state.persons[1])}

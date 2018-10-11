@@ -11,6 +11,7 @@ const person = props => {
       <p>A nice paragraph with some array methods working out a number: {test}.</p>
       <p>My name is {props.name} and I'm {props.age} years old.</p>
       <button onClick={props.click}>Click me!</button>
+      <input type="text" onChange={props.changed} defaultValue={props.name} />
       {props.children}
     </div>
   );
