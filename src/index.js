@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { StyleRoot } from 'radium';
-import App from './examples/assignment1/App';
+import App from './examples/basics/App';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(<StyleRoot><App /></StyleRoot>, document.getElementById('root'));
