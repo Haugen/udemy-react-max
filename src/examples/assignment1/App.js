@@ -7,14 +7,14 @@ import './index.css';
 
 class App extends Component {
   state = {
-    userName: "Tobias"
-  }
+    userName: 'Tobias'
+  };
 
   nameChangedHandler = event => {
     this.setState({
       userName: event.target.value
-    })
-  }
+    });
+  };
 
   styles = {
     color: 'pink',
@@ -28,7 +28,7 @@ class App extends Component {
     '@media (min-width: 500px)': {
       background: 'lightgreen'
     }
-  }
+  };
 
   render() {
     const classNames = [];
@@ -39,15 +39,18 @@ class App extends Component {
       classNames.push('bold');
     }
 
-    return(
+    return (
       <div className="app">
         <h1 style={this.styles}>Some heading</h1>
         <p className={classNames.join(' ')}>Some text!</p>
-        <UserInput name={this.state.userName} changed={this.nameChangedHandler} />
+        <UserInput
+          name={this.state.userName}
+          changed={this.nameChangedHandler}
+        />
         <UserOutput name={this.state.userName} />
       </div>
     );
-  };
+  }
 }
 
 // Radium as a higher order function.
