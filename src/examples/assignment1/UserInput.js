@@ -1,9 +1,18 @@
 import React from 'react';
 
 const UserInput = props => {
-  const inputStyles = {
-    border: '1px solid red'
+  let color = 'red'
+
+  if (props.name.length > 5) {
+    color = 'green';
   }
+  
+  const inputStyles = {
+    border: `1px solid ${color}`
+  }
+
+  inputStyles.padding = '10px';
+  inputStyles.backgroundColor = color;
 
   return(
     <div className="user-output">
