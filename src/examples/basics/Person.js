@@ -1,8 +1,10 @@
 import React from 'react';
 
+import styles from './index.module.css';
+
 const person = props => {
   return (
-    <div className="person">
+    <div className={styles.Person}>
       <p>
         My name is {props.name} and I'm {props.age} years old.
       </p>
