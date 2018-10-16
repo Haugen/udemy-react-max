@@ -52,6 +52,12 @@ class App extends Component {
     });
   };
 
+  showPersons = () => {
+    this.setState({
+      displayPersons: true
+    });
+  };
+
   render() {
     let persons = null;
 

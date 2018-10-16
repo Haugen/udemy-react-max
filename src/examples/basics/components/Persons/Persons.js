@@ -1,38 +1,44 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import Person from './Person/Person';
 
 import styles from './persons.module.css';
 
-const Persons = props => {
-  console.log(props.persons.length);
-  let classes = [];
+class Persons extends Component {
+  classes = [];
 
-  if (props.persons.length < 3) {
-    classes.push(styles.red);
-  }
-  if (props.persons.length < 2) {
-    classes.push(styles.bold);
+  addClasses() {
+    if (this.props.persons.length < 3) {
+      this.classes.push(styles.red);
+    }
+    if (this.props.persons.length < 2) {
+      this.classes.push(styles.bold);
+    }
   }
 
-  return (
-    <div>
-      <div className={classes.join(' ')}>
-        Number of people left: {props.persons.length}
+  render() {
+    this.addClasses();
+    console.log(this.props);
+
+    return (
+      <div>
+        <div className={this.classes.join(' ')}>
+          Number of people left: {this.props.persons.length}
+        </div>
+        {this.props.persons.map((person, i) => {
+          return (
+            <Person
+              name={person.name}
+              age={person.age}
+              key={person.id}
+              changed={event => this.props.changed(event, person.id)}
+              deletePerson={() => this.props.delete(i)}
+            />
+          );
+        })}
       </div>
-      {props.persons.map((person, i) => {
-        return (
-          <Person
-            name={person.name}
-            age={person.age}
-            key={person.id}
-            changed={event => props.changed(event, person.id)}
-            deletePerson={() => props.delete(i)}
-          />
-        );
-      })}
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default Persons;
