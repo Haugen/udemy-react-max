@@ -53,6 +53,11 @@ class App extends Component {
   render() {
     let persons = null;
 
+    const styles = {
+      width: '500px',
+      margin: '0 auto'
+    };
+
     if (this.state.displayPersons) {
       persons = (
         <div className="toggle-persons">
@@ -72,7 +77,7 @@ class App extends Component {
     }
 
     return (
-      <div className="App">
+      <div className="App" style={styles}>
         <h1>A React app!</h1>
         <p>A paragraph from App.js</p>
         <button onClick={this.togglePersons}>Toggle persons!</button>
