@@ -23,3 +23,16 @@ code {
   margin-top: 30px;
   padding: 20px;
 }
+
+.Person button {
+  font-size: 14px;
+  cursor: pointer;
+  background-color: rgb(194, 94, 55);
+}
+.Person button:hover,
+.Person button.Blue:hover {
+  background-color: rgb(92, 224, 180);
+}
+.Person button.Blue {
+  background-color: rgb(129, 194, 55);
+}
