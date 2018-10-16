@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import Person from './Person';
 
-import styles from './index.module.css';
+import Cockpit from '../components/Cockpit/Cockpit';
+import Persons from '../components/Persons/Persons';
+
+import styles from '../index.module.css';
 
 class App extends Component {
   state = {
@@ -56,26 +58,18 @@ class App extends Component {
     if (this.state.displayPersons) {
       persons = (
         <div className="toggle-persons">
-          {this.state.persons.map((person, i) => {
-            return (
-              <Person
-                name={person.name}
-                age={person.age}
-                key={person.id}
-                changed={event => this.changeNameHandler(event, person.id)}
-                deletePerson={() => this.deletePersonHandler(i)}
-              />
-            );
-          })}
+          <Persons
+            persons={this.state.persons}
+            changed={this.changeNameHandler}
+            delete={this.deletePersonHandler}
+          />
         </div>
       );
     }
 
     return (
       <div className={styles.App}>
-        <h1>A React app!</h1>
-        <p>A paragraph from App.js</p>
-        <button onClick={this.togglePersons}>Toggle persons!</button>
+        <Cockpit togglePersons={this.togglePersons} />
         {persons}
       </div>
     );
