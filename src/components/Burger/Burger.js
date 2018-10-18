@@ -12,6 +12,9 @@ const burger = props => {
     }
   };
 
+  if (ingredients.length === 0) ingredients = 
+    <p>Start making your burger with the controls below.</p>
+
   return (
     <div className={classes.Burger}>
       <BurgerIngredient type="bread-top" />
