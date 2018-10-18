@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Person from './Person/Person';
 import withClass from '../../hoc/withClass';
@@ -40,5 +41,11 @@ class Persons extends Component {
     );
   }
 }
+
+Persons.propTypes = {
+  persons: PropTypes.array,
+  changed: PropTypes.func,
+  deletePerson: PropTypes.func
+};
 
 export default withClass(Persons, 'test-class');

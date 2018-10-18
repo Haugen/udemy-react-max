@@ -6,6 +6,8 @@ import withClass from '../hoc/withClass';
 
 import styles from '../index.module.css';
 
+export const AuthContext = React.createContext(false);
+
 class App extends Component {
   state = {
     persons: [
@@ -14,7 +16,8 @@ class App extends Component {
       { id: '3', name: 'Fredrik', age: 30 }
     ],
     displayPersons: false,
-    toggleClicks: 0
+    toggleClicks: 0,
+    authenticated: false
   };
 
   deletePersonHandler = personIndex => {
@@ -63,6 +66,10 @@ class App extends Component {
     });
   };
 
+  handleAuthentication = () => {
+    this.setState({ authenticated: true });
+  };
+
   render() {
     let persons = null;
 
@@ -81,7 +88,10 @@ class App extends Component {
     return (
       <div className={styles.App}>
         <Cockpit togglePersons={this.togglePersons} />
-        {persons}
+        <button onClick={this.handleAuthentication}>Authenticate</button>
+        <AuthContext.Provider value={this.state.authenticated}>
+          {persons}
+        </AuthContext.Provider>
       </div>
     );
   }

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { AuthContext } from '../../../containers/App';
 
 import styles from '../../../index.module.css';
 
@@ -8,6 +10,9 @@ class Person extends Component {
 
     return (
       <div className={styles.Person}>
+        <AuthContext.Consumer>
+          {auth => (auth ? <p>Authenticated!</p> : null)}
+        </AuthContext.Consumer>
         <p>
           My name is {this.props.name} and I'm {this.props.age} years old.
         </p>
@@ -19,5 +24,11 @@ class Person extends Component {
     );
   }
 }
+
+Person.propTypes = {
+  name: PropTypes.string,
+  age: PropTypes.number,
+  changed: PropTypes.func
+};
 
 export default Person;
