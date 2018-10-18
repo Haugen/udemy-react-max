@@ -1,12 +1,13 @@
 import React from 'react';
+//import Aux from '../../hoc/Aux';
 
 const Cockpit = props => {
   return (
-    <div className="cockpit">
+    <>
       <h1>A React app!</h1>
       <p>A paragraph from App.js</p>
       <button onClick={props.togglePersons}>Toggle persons!</button>
-    </div>
+    </>
   );
 };
 

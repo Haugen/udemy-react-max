@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Cockpit from '../components/Cockpit/Cockpit';
 import Persons from '../components/Persons/Persons';
+import withClass from '../hoc/withClass';
 
 import styles from '../index.module.css';
 
@@ -12,7 +13,8 @@ class App extends Component {
       { id: '2', name: 'Anders', age: 32 },
       { id: '3', name: 'Fredrik', age: 30 }
     ],
-    displayPersons: false
+    displayPersons: false,
+    toggleClicks: 0
   };
 
   deletePersonHandler = personIndex => {
@@ -47,8 +49,11 @@ class App extends Component {
   };
 
   togglePersons = () => {
-    this.setState({
-      displayPersons: !this.state.displayPersons
+    this.setState((prevState, props) => {
+      return {
+        displayPersons: !prevState.displayPersons,
+        toggleClicks: prevState.toggleClicks + 1
+      };
     });
   };
 
@@ -82,4 +87,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withClass(App, 'app-wrapper');
