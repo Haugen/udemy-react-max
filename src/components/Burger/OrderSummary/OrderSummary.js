@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Button from '../../UI/Button/Button';
+
 const orderSummary = props => {
   const ingredientsList = Object.entries(props.ingredients)
     .map(ingredient => {
@@ -14,7 +16,10 @@ const orderSummary = props => {
       <p>What a nice burger. These are the ingredients you choose:</p>
       <ul>{ingredientsList}</ul>
       <p>Your total will be <strong>${props.price}</strong>.</p>
-      <button>Proceed to checkout</button>
+      <Button classes={['btn', 'btn-primary', 'mr-2']}
+        click={props.continueToCheckout}>Proceed to checkout</Button>
+      <Button classes={['btn', 'btn-danger']}
+        click={props.closeModal}>Cancel</Button>
     </>
   );
 }

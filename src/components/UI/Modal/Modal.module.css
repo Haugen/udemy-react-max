@@ -12,6 +12,16 @@
   transition: all 0.3s ease-out;
 }
 
+.CloseModal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #000;
+  padding: 5px;
+  color: #fff;
+  cursor: pointer;
+}
+
 @media (min-width: 600px) {
   .Modal {
       width: 500px;

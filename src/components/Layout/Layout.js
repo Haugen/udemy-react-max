@@ -1,14 +1,19 @@
 import React from 'react';
 
 import classes from './layout.module.css';
+import Toolbar from '../Toolbar/Toolbar';
 
-const layout = props => (
-  <>
-    <div>Toolbar, SideDrawer, Backdrop</div>
-    <main className={classes.MainContent}>
-      {props.children}
-    </main>
-  </>
-)
+class Layout extends React.Component {
+  render() {
+    return (
+      <>
+        <Toolbar />
+        <main className={classes.MainContent}>
+          {this.props.children}
+        </main>
+      </>
+    )
+  }
+}
 
-export default layout;
+export default Layout;
