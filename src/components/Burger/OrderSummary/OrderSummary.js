@@ -4,11 +4,11 @@ import Button from '../../UI/Button/Button';
 
 const orderSummary = props => {
   const ingredientsList = Object.entries(props.ingredients)
-    .map(ingredient => {
-      return <li key={ingredient[0]}>
-        <span style={{textTransform: 'capitalize'}}>{ingredient[0]}</span>:&nbsp;
-        {ingredient[1]}</li>
-    });
+  .map(ingredient => {
+    return <li key={ingredient[0]}>
+      <span style={{textTransform: 'capitalize'}}>{ingredient[0]}</span>:&nbsp;
+      {ingredient[1]}</li>
+  });
 
   return (
     <>
@@ -17,7 +17,7 @@ const orderSummary = props => {
       <ul>{ingredientsList}</ul>
       <p>Your total will be <strong>${props.price}</strong>.</p>
       <Button classes={['btn', 'btn-primary', 'mr-2']}
-        click={props.continueToCheckout}>Proceed to checkout</Button>
+        click={props.continueToCheckout}>Checkout</Button>
       <Button classes={['btn', 'btn-danger']}
         click={props.closeModal}>Cancel</Button>
     </>

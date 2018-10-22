@@ -4,6 +4,7 @@ import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
+import Posts from '../../components/Posts/Posts';
 
 const INGREDIENTS_PRICES = {
   salad: 0.4,
@@ -77,6 +78,7 @@ class BurgerBuilder extends React.Component {
           adjustIngredient={this.adjustIngredientHandler}
           totalPrice={this.state.totalPrice.toFixed(2)}
         />
+        <Posts />
       </>
     )
   }
