@@ -7,14 +7,14 @@ import Posts from './components/Posts/Posts';
 class App extends Component {
   render() {
     return (
-      <Layout>
-        <Router>
+      <Router>
+        <Layout>
           <>
             <Route path="/" exact component={BurgerBuilder} />
             <Route path="/posts" exact component={Posts} />
           </>
-        </Router>
-      </Layout>
+        </Layout>
+      </Router>
     );
   }
 }
