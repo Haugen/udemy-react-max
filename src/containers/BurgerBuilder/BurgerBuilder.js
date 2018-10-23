@@ -18,15 +18,21 @@ const INGREDIENTS_PRICES = {
 
 class BurgerBuilder extends React.Component {
   state = {
-    ingredients: {
-      salad: 0,
-      cheese: 0,
-      bacon: 0,
-      meat: 0
-    },
+    ingredients: null,
     totalPrice: 4.00,
     purchasing: false,
     purchaseInProgress: false,
+    error: false
+  }
+
+  componentDidMount() {
+    axios.get('/ingredients.json')
+      .then(response => {
+        this.setState({ ingredients: response.data });
+      })
+      .catch(error => {
+        this.setState({ error: true })
+      })
   }
 
   adjustIngredientHandler = (ingredient, action) => {
@@ -92,7 +98,7 @@ class BurgerBuilder extends React.Component {
   render() {
     let checkoutDisplay;
 
-    if (this.state.purchaseInProgress) {
+    if (this.state.purchaseInProgress || !this.state.ingredients) {
       checkoutDisplay = <Spinner />;
     } else {
       checkoutDisplay = <OrderSummary
@@ -103,20 +109,32 @@ class BurgerBuilder extends React.Component {
       />;
     }
 
+    let burger = this.state.error
+      ? <p style={{textAlign: 'center'}}>Ingredients can't be loaded</p>
+      : <Spinner />;
+
+    if (this.state.ingredients) {
+      burger = (
+        <>
+          <Burger ingredients={this.state.ingredients} />
+          <BuildControls
+            ingredients={this.state.ingredients}
+            orderBurger={this.purchaseHandler}
+            adjustIngredient={this.adjustIngredientHandler}
+            totalPrice={this.state.totalPrice.toFixed(2)}
+          />
+        </>
+      );
+    }
+
     return (
       <>
-        <Burger ingredients={this.state.ingredients} />
+        {burger}
         <Modal 
           show={this.state.purchasing} 
           closeModal={this.purchaseCancelHandler}>
             {checkoutDisplay}
         </Modal>
-        <BuildControls
-          ingredients={this.state.ingredients}
-          orderBurger={this.purchaseHandler}
-          adjustIngredient={this.adjustIngredientHandler}
-          totalPrice={this.state.totalPrice.toFixed(2)}
-        />
         <Posts />
       </>
     )

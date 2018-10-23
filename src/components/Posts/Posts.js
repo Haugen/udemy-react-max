@@ -4,6 +4,7 @@ import { jsonPlaceholder as axios } from '../../util/Axios/Axios';
 import Post from './Post/Post';
 import FullPost from './FullPost/FullPost';
 import classes from './Posts.module.css';
+import withErrorHandling from '../../util/WithErrorHandling/WithErrorHandling';
 
 class Posts extends React.Component {
   state = {
@@ -15,16 +16,18 @@ class Posts extends React.Component {
   componentDidMount() {
     axios.get('/posts')
       .then(async response => {
-        let posts = [];
-        for (let i = 0; i < 3; i++) {
-          let post = response.data[i];
-          let user = await axios.get(`/users/${post.userId}`)
-          post.author = user.data.name;
-          posts.push(post);
+        if (response) {
+          let posts = [];
+          for (let i = 0; i < 3; i++) {
+            let post = response.data[i];
+            let user = await axios.get(`/users/${post.userId}`)
+            post.author = user.data.name;
+            posts.push(post);
+          }
+          this.setState({
+            posts: posts
+          })
         }
-        this.setState({
-          posts: posts
-        })
       })
   }
 
@@ -73,4 +76,4 @@ class Posts extends React.Component {
   }
 }
 
-export default Posts;
+export default withErrorHandling(Posts, axios);
