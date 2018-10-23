@@ -10,7 +10,8 @@ class Posts extends React.Component {
   state = {
     posts: [],
     fullPostId: null,
-    fullPost: {}
+    fullPost: {},
+    stop: false
   }
 
   componentDidMount() {
@@ -32,7 +33,7 @@ class Posts extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.state.fullPostId && this.state.fullPostId !== this.state.fullPost.id) {
+    if (!this.state.stop && this.state.fullPostId && this.state.fullPostId !== this.state.fullPost.id) {
       axios.get('/posts/' + this.state.fullPostId)
         .then(response => {
           this.setState({
@@ -40,12 +41,14 @@ class Posts extends React.Component {
             fullPostId: response.data.id
           })
         })
+      this.setState({ stop: true })
     }
   }
 
   updateFullPostHandler = id => {
     this.setState({
-      fullPostId: id
+      fullPostId: id,
+      stop: false
     })
   }
 
