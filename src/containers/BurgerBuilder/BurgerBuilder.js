@@ -5,6 +5,8 @@ import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Posts from '../../components/Posts/Posts';
+import { firebase as axios } from '../../util/Axios/Axios';
+import Spinner from '../../components/UI/Spinner/Spinner'
 
 const INGREDIENTS_PRICES = {
   salad: 0.4,
@@ -27,7 +29,8 @@ class BurgerBuilder extends React.Component {
       meat: 0
     },
     totalPrice: 4.00,
-    purchasing: false
+    purchasing: false,
+    purchaseInProgress: false,
   }
 
   adjustIngredientHandler = (ingredient, action) => {
@@ -57,20 +60,60 @@ class BurgerBuilder extends React.Component {
   }
 
   purchaseContinueHandler = () => {
-    console.log('Lets continue!');
+    this.setState({ purchaseInProgress: true });
+
+    axios.post('/orders.json', {
+      ingredients: this.state.ingredients,
+      totalPrice: this.state.totalPrice.toFixed(2),
+      customer: {
+        name: 'Tobias Haugen',
+        address: {
+          stret: 'Lindholmsallén 53',
+          zip: '417 53',
+          city: 'Gothenburg',
+          country: 'Sweden'
+        },
+        email: 'tobiashaugen@gmail.com'
+      },
+      deliveryMethod: 'fastest'
+    })
+      .then(response => {
+        console.log(response);
+        this.setState({ 
+          purchaseInProgress: false,
+          purchasing: false
+        });
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({
+          purchaseInProgress: false,
+          purchasing: false
+        });
+      })
   }
 
   render() {
+    let checkoutDisplay;
+
+    if (this.state.purchaseInProgress) {
+      checkoutDisplay = <Spinner />;
+    } else {
+      checkoutDisplay = <OrderSummary
+        price={this.state.totalPrice.toFixed(2)}
+        ingredients={this.state.ingredients}
+        closeModal={this.purchaseCancelHandler}
+        continueToCheckout={this.purchaseContinueHandler}
+      />;
+    }
+
     return (
       <>
         <Burger ingredients={this.state.ingredients} />
-        <Modal show={this.state.purchasing} closeModal={this.purchaseCancelHandler}>
-          <OrderSummary
-            price={this.state.totalPrice.toFixed(2)}
-            ingredients={this.state.ingredients}
-            closeModal={this.purchaseCancelHandler}
-            continueToCheckout={this.purchaseContinueHandler}
-          />
+        <Modal 
+          show={this.state.purchasing} 
+          closeModal={this.purchaseCancelHandler}>
+            {checkoutDisplay}
         </Modal>
         <BuildControls
           ingredients={this.state.ingredients}

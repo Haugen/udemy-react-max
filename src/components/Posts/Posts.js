@@ -1,6 +1,6 @@
 import React from 'react';
-import axios from 'axios';
 
+import { jsonPlaceholder as axios } from '../../util/Axios/Axios';
 import Post from './Post/Post';
 import FullPost from './FullPost/FullPost';
 import classes from './Posts.module.css';
