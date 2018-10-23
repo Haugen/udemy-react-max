@@ -7,6 +7,7 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Posts from '../../components/Posts/Posts';
 import { firebase as axios } from '../../util/Axios/Axios';
 import Spinner from '../../components/UI/Spinner/Spinner'
+import withErrorHandling from '../../util/WithErrorHandling/WithErrorHandling';
 
 const INGREDIENTS_PRICES = {
   salad: 0.4,
@@ -16,11 +17,6 @@ const INGREDIENTS_PRICES = {
 }
 
 class BurgerBuilder extends React.Component {
-  constructor(props) {
-    super(props);
-    this.modal = 'hej';
-  }
-
   state = {
     ingredients: {
       salad: 0,
@@ -127,4 +123,4 @@ class BurgerBuilder extends React.Component {
   }
 }
 
-export default BurgerBuilder
+export default withErrorHandling(BurgerBuilder, axios);
