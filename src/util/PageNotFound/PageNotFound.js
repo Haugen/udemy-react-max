@@ -37,8 +37,7 @@ class pageNotFound extends React.Component {
       <>
         <div className={classes.PageNotFound}>
           <h1>Page not found</h1>
-          <p>Try another URL or wait until redirected.</p>
-          {seconds}
+          <p>You are being redirected in {seconds} seconds</p>
           {redirect}
         </div>
       </>
