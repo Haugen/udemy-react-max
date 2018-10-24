@@ -5,6 +5,7 @@ import Post from './Post/Post';
 import FullPost from './FullPost/FullPost';
 import classes from './Posts.module.css';
 import withErrorHandling from '../../util/WithErrorHandling/WithErrorHandling';
+import Spinner from '../UI/Spinner/Spinner';
 
 class Posts extends React.Component {
   state = {
@@ -53,20 +54,26 @@ class Posts extends React.Component {
   }
 
   render() {
-    let posts = [];
+    let posts;
     let statePosts = this.state.posts;
 
-    for (let i = 0; i < statePosts.length; i++) {
-      posts.push(
-        <Post
-          key={statePosts[i].id}
-          id={statePosts[i].id}
-          title={statePosts[i].title}
-          author={statePosts[i].author}
-          changeFullPost={this.updateFullPostHandler}
-        />
-      )
+    if (statePosts.length > 0) {
+      posts = [];
+      for (let i = 0; i < statePosts.length; i++) {
+        posts.push(
+          <Post
+            key={statePosts[i].id}
+            id={statePosts[i].id}
+            title={statePosts[i].title}
+            author={statePosts[i].author}
+            changeFullPost={this.updateFullPostHandler}
+          />
+        )
+      }
+    } else {
+      posts = <Spinner />
     }
+    
 
     return(
       <>

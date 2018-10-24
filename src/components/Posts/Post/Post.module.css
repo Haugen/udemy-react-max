@@ -1,3 +1,7 @@
 .Post h5 {
   cursor: pointer;
 }
+
+.FullPost {
+  padding: 0 20px;
+}
