@@ -2,7 +2,7 @@ import React from 'react';
 
 import { jsonPlaceholder as axios } from '../../util/Axios/Axios';
 import Post from './Post/Post';
-import FullPost from './FullPost/FullPost';
+// import FullPost from './FullPost/FullPost';
 import classes from './Posts.module.css';
 import withErrorHandling from '../../util/WithErrorHandling/WithErrorHandling';
 import Spinner from '../UI/Spinner/Spinner';
@@ -47,10 +47,9 @@ class Posts extends React.Component {
   }
 
   updateFullPostHandler = id => {
-    this.setState({
-      fullPostId: id,
-      stop: false
-    })
+    // An example of navigating programatically instead of having a Link inside
+    // each Post. Pushing a new URL into the history prop.
+    this.props.history.push('/posts/' + id);
   }
 
   render() {
@@ -78,7 +77,7 @@ class Posts extends React.Component {
     return(
       <>
         <div className={classes.Posts}>
-          <FullPost post={this.state.fullPost} />
+          {/* <FullPost post={this.state.fullPost} /> */}
           {posts}
         </div>
       </>
