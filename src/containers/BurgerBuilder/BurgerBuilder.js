@@ -61,7 +61,16 @@ class BurgerBuilder extends React.Component {
   }
 
   purchaseContinueHandler = () => {
-    this.props.history.push('/checkout');
+    let queryParams = [];
+    for (let [ingredient, amount] of Object.entries(this.state.ingredients)) {
+      queryParams.push(encodeURIComponent(ingredient) + '=' +
+        encodeURIComponent(amount));
+    }
+
+    this.props.history.push({
+      pathname: '/checkout',
+      search: `?${queryParams.join('&')}`
+    });
 
     // For now, just redirecting to the checkout page above. The code below wont execute.
     // this.setState({ purchaseInProgress: true });

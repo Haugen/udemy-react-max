@@ -16,7 +16,7 @@ class App extends Component {
             <Switch>
               <Route path="/posts/:id" exact component={PostFull} />
               <Route path="/posts" exact component={Posts} />
-              <Route path="/checkout" exact component={Checkout} />
+              <Route path="/checkout" component={Checkout} />
               <Route path="/" exact component={BurgerBuilder} />
               <Route component={PageNotFound} />
             </Switch>
