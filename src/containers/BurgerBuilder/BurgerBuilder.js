@@ -61,37 +61,40 @@ class BurgerBuilder extends React.Component {
   }
 
   purchaseContinueHandler = () => {
-    this.setState({ purchaseInProgress: true });
+    this.props.history.push('/checkout');
 
-    axios.post('/orders.json', {
-      ingredients: this.state.ingredients,
-      totalPrice: this.state.totalPrice.toFixed(2),
-      customer: {
-        name: 'Tobias Haugen',
-        address: {
-          stret: 'Lindholmsallén 53',
-          zip: '417 53',
-          city: 'Gothenburg',
-          country: 'Sweden'
-        },
-        email: 'tobiashaugen@gmail.com'
-      },
-      deliveryMethod: 'fastest'
-    })
-      .then(response => {
-        console.log(response);
-        this.setState({ 
-          purchaseInProgress: false,
-          purchasing: false
-        });
-      })
-      .catch(error => {
-        console.log(error);
-        this.setState({
-          purchaseInProgress: false,
-          purchasing: false
-        });
-      })
+    // For now, just redirecting to the checkout page above. The code below wont execute.
+    // this.setState({ purchaseInProgress: true });
+
+    // axios.post('/orders.json', {
+    //   ingredients: this.state.ingredients,
+    //   totalPrice: this.state.totalPrice.toFixed(2),
+    //   customer: {
+    //     name: 'Tobias Haugen',
+    //     address: {
+    //       stret: 'Lindholmsallén 53',
+    //       zip: '417 53',
+    //       city: 'Gothenburg',
+    //       country: 'Sweden'
+    //     },
+    //     email: 'tobiashaugen@gmail.com'
+    //   },
+    //   deliveryMethod: 'fastest'
+    // })
+    //   .then(response => {
+    //     console.log(response);
+    //     this.setState({
+    //       purchaseInProgress: false,
+    //       purchasing: false
+    //     });
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //     this.setState({
+    //       purchaseInProgress: false,
+    //       purchasing: false
+    //     });
+    //   })
   }
 
   render() {

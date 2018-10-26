@@ -9,8 +9,8 @@ const checkoutSummary = props => {
       <div>
         <Burger ingredients={props.ingredients} />
       </div>
-      <Button click={'#'} classes={'btn btn-success mr-2 mb-2'}>Order burger!</Button>
-      <Button click={'#'} classes={'btn btn-warning mb-2'}>Cancel checkout</Button>
+      <Button click={props.checkoutProceed} classes={'btn btn-success mr-2 mb-2'}>Order burger!</Button>
+      <Button click={props.checkoutCancele} classes={'btn btn-warning mb-2'}>Cancel checkout</Button>
     </div>
   );
 }
