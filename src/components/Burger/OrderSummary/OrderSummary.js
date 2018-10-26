@@ -16,9 +16,9 @@ const orderSummary = props => {
       <p>What a nice burger. These are the ingredients you choose:</p>
       <ul>{ingredientsList}</ul>
       <p>Your total will be <strong>${props.price}</strong>.</p>
-      <Button classes={['btn', 'btn-primary', 'mr-2']}
+      <Button classes={'btn btn-primary mr-2'}
         click={props.continueToCheckout}>Checkout</Button>
-      <Button classes={['btn', 'btn-danger']}
+      <Button classes={'btn btn-danger'}
         click={props.closeModal}>Cancel</Button>
     </>
   );

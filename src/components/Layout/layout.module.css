@@ -1,3 +1,5 @@
 .MainContent {
   margin-top: 20px;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
