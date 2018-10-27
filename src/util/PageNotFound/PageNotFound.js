@@ -9,7 +9,7 @@ class pageNotFound extends React.Component {
   state = {
     redirect: false,
     seconds: this.REDIRECT_IN
-  }
+  };
 
   componentDidMount() {
     setTimeout(() => {
@@ -17,7 +17,9 @@ class pageNotFound extends React.Component {
     }, this.REDIRECT_IN * 1000);
 
     this.interval = setInterval(() => {
-      this.setState((state) => { return { seconds: state.seconds - 1 } });
+      this.setState(state => {
+        return { seconds: state.seconds - 1 };
+      });
     }, 1000);
   }
 
@@ -30,10 +32,10 @@ class pageNotFound extends React.Component {
     let seconds = this.state.seconds;
 
     if (this.state.redirect) {
-      redirect = <Redirect to='/' />
+      redirect = <Redirect to="/" />;
     }
 
-    return(
+    return (
       <>
         <div className={classes.PageNotFound}>
           <h1>Page not found</h1>

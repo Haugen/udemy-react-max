@@ -5,7 +5,7 @@ import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import { firebase as axios } from '../../util/Axios/Axios';
-import Spinner from '../../components/UI/Spinner/Spinner'
+import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandling from '../../util/WithErrorHandling/WithErrorHandling';
 
 const INGREDIENTS_PRICES = {
@@ -13,29 +13,30 @@ const INGREDIENTS_PRICES = {
   cheese: 0.6,
   meat: 1.3,
   bacon: 0.8
-}
+};
 
 class BurgerBuilder extends React.Component {
   state = {
     ingredients: null,
-    totalPrice: 4.00,
+    totalPrice: 4.0,
     purchasing: false,
     purchaseInProgress: false,
     error: false
-  }
+  };
 
   componentDidMount() {
-    axios.get('/ingredients.json')
+    axios
+      .get('/ingredients.json')
       .then(response => {
         this.setState({ ingredients: response.data });
       })
       .catch(error => {
-        this.setState({ error: true })
-      })
+        this.setState({ error: true });
+      });
   }
 
   adjustIngredientHandler = (ingredient, action) => {
-    let newIngredientState = {...this.state.ingredients};
+    let newIngredientState = { ...this.state.ingredients };
     let totalPrice = this.state.totalPrice;
 
     if (action === 'add') {
@@ -49,22 +50,23 @@ class BurgerBuilder extends React.Component {
     this.setState({
       ingredients: newIngredientState,
       totalPrice: totalPrice
-    })
-  }
+    });
+  };
 
   purchaseHandler = () => {
     this.setState({ purchasing: true });
-  }
+  };
 
   purchaseCancelHandler = () => {
     this.setState({ purchasing: false });
-  }
+  };
 
   purchaseContinueHandler = () => {
     let queryParams = [];
     for (let [ingredient, amount] of Object.entries(this.state.ingredients)) {
-      queryParams.push(encodeURIComponent(ingredient) + '=' +
-        encodeURIComponent(amount));
+      queryParams.push(
+        encodeURIComponent(ingredient) + '=' + encodeURIComponent(amount)
+      );
     }
 
     this.props.history.push({
@@ -104,7 +106,7 @@ class BurgerBuilder extends React.Component {
     //       purchasing: false
     //     });
     //   })
-  }
+  };
 
   render() {
     let checkoutDisplay;
@@ -112,17 +114,21 @@ class BurgerBuilder extends React.Component {
     if (this.state.purchaseInProgress || !this.state.ingredients) {
       checkoutDisplay = <Spinner />;
     } else {
-      checkoutDisplay = <OrderSummary
-        price={this.state.totalPrice.toFixed(2)}
-        ingredients={this.state.ingredients}
-        closeModal={this.purchaseCancelHandler}
-        continueToCheckout={this.purchaseContinueHandler}
-      />;
+      checkoutDisplay = (
+        <OrderSummary
+          price={this.state.totalPrice.toFixed(2)}
+          ingredients={this.state.ingredients}
+          closeModal={this.purchaseCancelHandler}
+          continueToCheckout={this.purchaseContinueHandler}
+        />
+      );
     }
 
-    let burger = this.state.error
-      ? <p style={{textAlign: 'center'}}>Ingredients can't be loaded</p>
-      : <Spinner />;
+    let burger = this.state.error ? (
+      <p style={{ textAlign: 'center' }}>Ingredients can't be loaded</p>
+    ) : (
+      <Spinner />
+    );
 
     if (this.state.ingredients) {
       burger = (
@@ -141,13 +147,14 @@ class BurgerBuilder extends React.Component {
     return (
       <>
         {burger}
-        <Modal 
-          show={this.state.purchasing} 
-          closeModal={this.purchaseCancelHandler}>
-            {checkoutDisplay}
+        <Modal
+          show={this.state.purchasing}
+          closeModal={this.purchaseCancelHandler}
+        >
+          {checkoutDisplay}
         </Modal>
       </>
-    )
+    );
   }
 }
 

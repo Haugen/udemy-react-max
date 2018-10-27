@@ -8,11 +8,9 @@ class Layout extends React.Component {
     return (
       <>
         <Toolbar />
-        <main className={classes.MainContent}>
-          {this.props.children}
-        </main>
+        <main className={classes.MainContent}>{this.props.children}</main>
       </>
-    )
+    );
   }
 }
 

@@ -6,7 +6,10 @@ import Backdrop from '../Backdrop/Backdrop';
 
 class Modal extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.show !== this.props.show || nextProps.children !== this.props.children) {
+    if (
+      nextProps.show !== this.props.show ||
+      nextProps.children !== this.props.children
+    ) {
       return true;
     }
     return false;
@@ -16,22 +19,29 @@ class Modal extends React.Component {
     return (
       <>
         <Backdrop show={this.props.show} closeModal={this.props.closeModal} />
-        <div className={classes.Modal} style={{
-          transform: this.props.show ? 'translateY(0)' : 'translateY(100vh)',
-          opacity: this.props.show ? '1' : '0'
-        }}>
-          <button className={classes.CloseModal} 
-            onClick={() => this.props.closeModal()}>X</button>
+        <div
+          className={classes.Modal}
+          style={{
+            transform: this.props.show ? 'translateY(0)' : 'translateY(100vh)',
+            opacity: this.props.show ? '1' : '0'
+          }}
+        >
+          <button
+            className={classes.CloseModal}
+            onClick={() => this.props.closeModal()}
+          >
+            X
+          </button>
           {this.props.children}
         </div>
       </>
     );
   }
-};
+}
 
 Modal.propTypes = {
   show: PropTypes.bool,
   closeModal: PropTypes.func
-}
+};
 
 export default Modal;

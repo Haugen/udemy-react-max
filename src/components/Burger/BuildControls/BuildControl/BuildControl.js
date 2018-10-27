@@ -14,16 +14,18 @@ const buildControl = props => {
       <button
         disabled={disabled}
         onClick={() => props.adjustIngredient(props.ingredient, 'remove')}
-        className={classes.Less}>
+        className={classes.Less}
+      >
         Less
       </button>
       <button
         onClick={() => props.adjustIngredient(props.ingredient, 'add')}
-        className={classes.More}>
+        className={classes.More}
+      >
         More
       </button>
     </div>
-  )
+  );
 };
 
 export default buildControl;

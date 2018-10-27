@@ -8,7 +8,8 @@ const buildControls = props => {
   let buttonDisabled = true;
 
   for (let [ingredient, amount] of Object.entries(props.ingredients)) {
-    let ingredientLabel = ingredient[0].toLocaleUpperCase() + ingredient.substring(1);
+    let ingredientLabel =
+      ingredient[0].toLocaleUpperCase() + ingredient.substring(1);
     if (buttonDisabled && amount > 0) buttonDisabled = false;
 
     controls.push(
@@ -24,14 +25,19 @@ const buildControls = props => {
 
   return (
     <div className={classes.BuildControls}>
-      <p><strong>${props.totalPrice}</strong></p>
+      <p>
+        <strong>${props.totalPrice}</strong>
+      </p>
       {controls}
-      <button 
+      <button
         disabled={buttonDisabled}
         onClick={props.orderBurger}
-        className={classes.OrderButton}>Order your burger!</button>
+        className={classes.OrderButton}
+      >
+        Order your burger!
+      </button>
     </div>
   );
-}
+};
 
 export default buildControls;
