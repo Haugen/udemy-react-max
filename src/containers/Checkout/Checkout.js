@@ -1,47 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Summary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import ContactData from './ContactData/ContactData';
 import { Route } from 'react-router-dom';
 
-class Checkout extends React.Component {
-  state = {
-    ingredients: {}
-  };
+const checkout = props => {
+  function checkoutCanceledHandler() {
+    props.history.goBack();
+  }
 
-  componentDidMount() {
-    const query = new URLSearchParams(this.props.location.search);
+  function checkoutProceedHandler() {
+    props.history.replace('/checkout/contact-data');
+  }
+
+  function initialState() {
+    const query = new URLSearchParams(props.location.search);
     const ingredients = {};
     for (let params of query.entries()) {
       ingredients[params[0]] = params[1];
     }
-    this.setState({ ingredients: ingredients });
+    return ingredients;
   }
 
-  checkoutCanceledHandler = () => {
-    this.props.history.goBack();
-  };
+  const [ingredients] = useState(initialState());
 
-  checkoutProceedHandler = () => {
-    this.props.history.replace('/checkout/contact-data');
-  };
+  return (
+    <>
+      <h1>Checkout</h1>
+      <Summary
+        checkoutCancele={checkoutCanceledHandler}
+        checkoutProceed={checkoutProceedHandler}
+        ingredients={ingredients}
+      />
+      <Route path={props.match.url + '/contact-data'} component={ContactData} />
+    </>
+  );
+};
 
-  render() {
-    return (
-      <>
-        <h1>Checkout</h1>
-        <Summary
-          checkoutCancele={this.checkoutCanceledHandler}
-          checkoutProceed={this.checkoutProceedHandler}
-          ingredients={this.state.ingredients}
-        />
-        <Route
-          path={this.props.match.url + '/contact-data'}
-          component={ContactData}
-        />
-      </>
-    );
-  }
-}
-
-export default Checkout;
+export default checkout;
