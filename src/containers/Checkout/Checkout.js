@@ -13,16 +13,29 @@ const checkout = props => {
     props.history.replace('/checkout/contact-data');
   }
 
-  function initialState() {
+  function getIngredients() {
     const query = new URLSearchParams(props.location.search);
     const ingredients = {};
     for (let params of query.entries()) {
+      if (params[0] === 'totalPrice') continue;
       ingredients[params[0]] = params[1];
     }
     return ingredients;
   }
 
-  const [ingredients] = useState(initialState());
+  function getPrice() {
+    const query = new URLSearchParams(props.location.search);
+    let totalPrice = 0;
+    for (let params of query.entries()) {
+      if (params[0] === 'totalPrice') {
+        totalPrice = params[1];
+      }
+    }
+    return totalPrice;
+  }
+
+  const [ingredients] = useState(getIngredients());
+  const [totalPrice] = useState(getPrice());
 
   return (
     <>
@@ -32,7 +45,16 @@ const checkout = props => {
         checkoutProceed={checkoutProceedHandler}
         ingredients={ingredients}
       />
-      <Route path={props.match.url + '/contact-data'} component={ContactData} />
+      <Route
+        path={props.match.url + '/contact-data'}
+        render={props => (
+          <ContactData
+            ingredients={ingredients}
+            totalPrice={totalPrice}
+            {...props}
+          />
+        )}
+      />
     </>
   );
 };
