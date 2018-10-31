@@ -3,16 +3,18 @@ import React from 'react';
 import Button from '../../../components/UI/Button/Button';
 import { firebase as axios } from '../../../util/Axios/Axios';
 import Spinner from '../../../components/UI/Spinner/Spinner';
+import Input from '../../../components/UI/Input/Input';
+import { cloneDeep } from 'lodash';
 
 class ContactData extends React.Component {
   state = {
     customer: {
-      name: '',
-      email: '',
-      address: {
-        street: '',
-        ZIP: ''
-      }
+      name: { id: 'name', value: '' },
+      email: { id: 'email', value: '' },
+      street: { id: 'street', value: '' },
+      zip: { id: 'zip', value: '' },
+      city: { id: 'city', value: '' },
+      deliveryMethod: { id: 'deliveryMethod', value: '' }
     },
     purchaseInProgress: false
   };
@@ -26,19 +28,17 @@ class ContactData extends React.Component {
         ingredients: this.props.ingredients,
         totalPrice: this.props.totalPrice,
         customer: {
-          name: 'Tobias Haugen',
+          name: this.state.customer.name.value,
           address: {
-            stret: 'Lindholmsallén 53',
-            zip: '417 53',
-            city: 'Gothenburg',
-            country: 'Sweden'
+            street: this.state.customer.street.value,
+            zip: this.state.customer.zip.value,
+            city: this.state.customer.city.value
           },
-          email: 'tobiashaugen@gmail.com'
+          email: this.state.customer.email.value
         },
-        deliveryMethod: 'fastest'
+        deliveryMethod: this.state.customer.deliveryMethod.value
       })
-      .then(response => {
-        console.log(response);
+      .then(() => {
         this.setState({
           purchaseInProgress: false
         });
@@ -52,61 +52,83 @@ class ContactData extends React.Component {
       });
   };
 
+  onChangeHandler = (event, id) => {
+    const newState = cloneDeep(this.state);
+    newState.customer[id].value = event.target.value;
+    console.log(event.target.value);
+    this.setState(newState);
+  };
+
   render() {
     let form = (
-      <form>
+      <form onSubmit={this.createOrderHandler}>
         <div className="form-group">
-          <label htmlFor="name">Name</label>
-          <input
+          <Input
+            changed={event =>
+              this.onChangeHandler(event, this.state.customer.name.id)
+            }
             type="text"
-            className="form-control"
             id="name"
-            placeholder="Your name"
+            label="Your name"
           />
         </div>
         <div className="form-group">
-          <label htmlFor="email">Email address</label>
-          <input
+          <Input
+            changed={event =>
+              this.onChangeHandler(event, this.state.customer.email.id)
+            }
             type="email"
-            className="form-control"
             id="email"
-            placeholder="Enter email"
+            label="Email address"
           />
           <small id="emailHelp" className="form-text text-muted">
             We'll never share your email with anyone else.
           </small>
         </div>
         <div className="form-group">
-          <label htmlFor="street">Street address</label>
-          <input
+          <Input
+            changed={event =>
+              this.onChangeHandler(event, this.state.customer.street.id)
+            }
             type="text"
-            className="form-control"
             id="street"
-            placeholder="Street address"
+            label="Street address"
           />
         </div>
         <div className="form-group">
-          <label htmlFor="zip">ZIP code</label>
-          <input
+          <Input
+            changed={event =>
+              this.onChangeHandler(event, this.state.customer.zip.id)
+            }
             type="text"
-            className="form-control"
             id="zip"
-            placeholder="ZIP code"
+            label="ZIP code"
           />
         </div>
-        <div className="form-check">
-          <input
-            type="checkbox"
-            className="form-check-input"
-            id="exampleCheck1"
+        <div className="form-group">
+          <Input
+            changed={event =>
+              this.onChangeHandler(event, this.state.customer.city.id)
+            }
+            type="text"
+            id="city"
+            label="City"
           />
-          <label className="form-check-label" htmlFor="exampleCheck1">
-            I agree to the terms and conditions
-          </label>
         </div>
-        <Button click={this.createOrderHandler} classes="btn btn-success mt-3">
-          Order burger!
-        </Button>
+        <div className="form-group">
+          <label htmlFor="delivery">Delivery method</label>
+          <select
+            onChange={event =>
+              this.onChangeHandler(event, this.state.customer.deliveryMethod.id)
+            }
+            className="form-control"
+            id="delivery"
+          >
+            <option value="fastest">Fastest</option>
+            <option value="cheapest">Cheapest</option>
+          </select>
+        </div>
+        <Button classes="btn btn-success mt-3">Order burger!</Button>
       </form>
     );
 

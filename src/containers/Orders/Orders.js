@@ -6,7 +6,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import WithErrorHandling from '../../util/WithErrorHandling/WithErrorHandling';
 
 const orders = () => {
-  let displayOrders = [];
+  let displayOrders = 'No orders.';
   const [orders, setOrders] = useState(<Spinner />);
 
   useEffect(() => {
@@ -14,24 +14,29 @@ const orders = () => {
       .get('orders.json')
       .then(response => {
         let orders = [];
-        for (let [orderId, order] of Object.entries(response.data)) {
-          orders.push({
-            Id: orderId,
-            ingredients: order.ingredients,
-            price: order.totalPrice
-          });
+        if (response.data) {
+          for (let [orderId, order] of Object.entries(response.data)) {
+            orders.push({
+              Id: orderId,
+              ingredients: order.ingredients,
+              price: order.totalPrice
+            });
+          }
         }
         return orders;
       })
       .then(orders => {
-        for (let i = 0; i < orders.length; i++) {
-          displayOrders.push(
-            <Order
-              key={orders[i].Id}
-              ingredients={orders[i].ingredients}
-              price={orders[i].price}
-            />
-          );
+        if (orders.length > 0) {
+          displayOrders = [];
+          for (let i = 0; i < orders.length; i++) {
+            displayOrders.push(
+              <Order
+                key={orders[i].Id}
+                ingredients={orders[i].ingredients}
+                price={orders[i].price}
+              />
+            );
+          }
         }
         setOrders(displayOrders);
       })
