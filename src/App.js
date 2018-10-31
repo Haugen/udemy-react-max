@@ -6,6 +6,7 @@ import Posts from './components/Posts/Posts';
 import PostFull from './components/Posts/Post/PostFull';
 import PageNotFound from './util/PageNotFound/PageNotFound';
 import Checkout from './containers/Checkout/Checkout';
+import Orders from './containers/Orders/Orders';
 
 class App extends Component {
   render() {
@@ -16,6 +17,7 @@ class App extends Component {
             <Switch>
               <Route path="/posts/:id" exact component={PostFull} />
               <Route path="/posts" exact component={Posts} />
+              <Route path="/orders" exact component={Orders} />
               <Route path="/checkout" component={Checkout} />
               <Route path="/" exact component={BurgerBuilder} />
               <Route component={PageNotFound} />
