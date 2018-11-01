@@ -6,10 +6,59 @@ import AddPerson from '../components/AddPerson/AddPerson';
 import * as actionTypes from '../store/actions';
 
 class Persons extends Component {
+  state = {
+    person: {
+      name: '',
+      age: ''
+    }
+  };
+
+  onChangeHandler = event => {
+    let updatePerson = { ...this.state.person };
+    updatePerson[event.target.name] = event.target.value;
+    this.setState({ person: updatePerson });
+  };
+
+  makePerson = () => {
+    const person = {
+      id: Math.random(),
+      name: this.state.person.name,
+      age: this.state.person.age
+    };
+
+    document.querySelector('#name-field').value = '';
+    document.querySelector('#age-field').value = '';
+
+    this.setState({
+      person: {
+        name: '',
+        age: ''
+      }
+    });
+
+    return person;
+  };
+
   render() {
     return (
       <div>
-        <AddPerson personAdded={this.props.onAddPerson} />
+        Name:{' '}
+        <input
+          onChange={this.onChangeHandler}
+          id="name-field"
+          name="name"
+          type="text"
+        />
+        Age:{' '}
+        <input
+          onChange={this.onChangeHandler}
+          id="age-field"
+          name="age"
+          type="text"
+        />
+        <AddPerson
+          personAdded={() => this.props.onAddPerson(this.makePerson())}
+        />
         {this.props.persons.map(person => (
           <Person
             key={person.id}
@@ -23,14 +72,6 @@ class Persons extends Component {
   }
 }
 
-const newPerson = () => {
-  return {
-    id: Math.random(),
-    name: 'Tobias',
-    age: Math.floor(Math.random() * 40)
-  };
-};
-
 const mapStateToProps = state => {
   return {
     persons: state.persons,
@@ -40,8 +81,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAddPerson: () =>
-      dispatch({ type: actionTypes.ADD_PERSON, person: newPerson() }),
+    onAddPerson: person =>
+      dispatch({ type: actionTypes.ADD_PERSON, person: person }),
     onDeletePerson: id =>
       dispatch({ type: actionTypes.DELETE_PERSON, personId: id })
   };
