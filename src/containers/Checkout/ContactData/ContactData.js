@@ -14,7 +14,7 @@ class ContactData extends React.Component {
       street: { id: 'street', value: '' },
       zip: { id: 'zip', value: '' },
       city: { id: 'city', value: '' },
-      deliveryMethod: { id: 'deliveryMethod', value: '' }
+      deliveryMethod: { id: 'deliveryMethod', value: 'fastest' }
     },
     purchaseInProgress: false
   };
@@ -55,7 +55,6 @@ class ContactData extends React.Component {
   onChangeHandler = (event, id) => {
     const newState = cloneDeep(this.state);
     newState.customer[id].value = event.target.value;
-    console.log(event.target.value);
     this.setState(newState);
   };
 
