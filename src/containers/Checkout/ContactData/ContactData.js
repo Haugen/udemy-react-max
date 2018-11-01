@@ -5,6 +5,7 @@ import { firebase as axios } from '../../../util/Axios/Axios';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 import { cloneDeep } from 'lodash';
+import { connect } from 'react-redux';
 
 class ContactData extends React.Component {
   state = {
@@ -143,4 +144,9 @@ class ContactData extends React.Component {
   }
 }
 
-export default ContactData;
+const mapStateToProps = state => ({
+  ingredients: state.ingredients,
+  totalPrice: state.totalPrice
+});
+
+export default connect(mapStateToProps)(ContactData);

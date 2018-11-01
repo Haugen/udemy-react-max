@@ -19,12 +19,10 @@ const INGREDIENTS_PRICES = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.ADJUST_PRICE:
+    case actionTypes.ADJUST_INGREDIENTS:
       let newIngredients = { ...state.ingredients };
       let totalPrice = state.totalPrice;
       let ingredient = action.payload.ingredient;
-
-      console.log(action.payload.ingredient);
 
       if (action.payload.action === 'add') {
         newIngredients[ingredient]++;
@@ -36,7 +34,6 @@ const reducer = (state = initialState, action) => {
         newIngredients[ingredient]--;
         totalPrice = totalPrice - INGREDIENTS_PRICES[ingredient];
       }
-      console.log(state);
       return {
         ...state,
         ingredients: newIngredients,

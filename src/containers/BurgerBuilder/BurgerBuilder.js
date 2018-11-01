@@ -37,18 +37,7 @@ class BurgerBuilder extends React.Component {
   };
 
   purchaseContinueHandler = () => {
-    let queryParams = [];
-    for (let [ingredient, amount] of Object.entries(this.props.ingredients)) {
-      queryParams.push(
-        encodeURIComponent(ingredient) + '=' + encodeURIComponent(amount)
-      );
-    }
-    queryParams.push('totalPrice=' + this.props.totalPrice.toFixed(2));
-
-    this.props.history.push({
-      pathname: '/checkout',
-      search: `?${queryParams.join('&')}`
-    });
+    this.props.history.push('/checkout');
   };
 
   render() {
@@ -101,22 +90,18 @@ class BurgerBuilder extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    totalPrice: state.totalPrice,
-    ingredients: state.ingredients
-  };
-};
+const mapStateToProps = state => ({
+  totalPrice: state.totalPrice,
+  ingredients: state.ingredients
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onAdjustIngredientHandler: (ingredient, action) =>
-      dispatch({
-        type: actionTypes.ADJUST_PRICE,
-        payload: { ingredient: ingredient, action: action }
-      })
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  onAdjustIngredientHandler: (ingredient, action) =>
+    dispatch({
+      type: actionTypes.ADJUST_INGREDIENTS,
+      payload: { ingredient, action }
+    })
+});
 
 export default connect(
   mapStateToProps,
