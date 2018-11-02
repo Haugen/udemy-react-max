@@ -6,6 +6,7 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 import { cloneDeep } from 'lodash';
 import { connect } from 'react-redux';
+import * as actionCreators from '../../../store/actions/actionTypes';
 
 class ContactData extends React.Component {
   state = {
@@ -43,6 +44,7 @@ class ContactData extends React.Component {
         this.setState({
           purchaseInProgress: false
         });
+        this.props.onGetThenSetInitialIngredientsAsync();
         this.props.history.push('/');
       })
       .catch(error => {
@@ -149,4 +151,15 @@ const mapStateToProps = state => ({
   totalPrice: state.totalPrice
 });
 
-export default connect(mapStateToProps)(ContactData);
+const mapDispatchToProps = dispatch => {
+  return {
+    onGetThenSetInitialIngredientsAsync: () => {
+      dispatch(actionCreators.getThenSetInitialIngredientsAsync());
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ContactData);

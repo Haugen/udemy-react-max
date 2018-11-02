@@ -8,7 +8,7 @@ import { firebase as axios } from '../../util/Axios/Axios';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandling from '../../util/WithErrorHandling/WithErrorHandling';
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/actions';
+import * as actionCreators from '../../store/actions/actionTypes';
 
 class BurgerBuilder extends React.Component {
   state = {
@@ -17,16 +17,11 @@ class BurgerBuilder extends React.Component {
     error: false
   };
 
-  // componentDidMount() {
-  //   axios
-  //     .get('/ingredients.json')
-  //     .then(response => {
-  //       this.setState({ ingredients: response.data });
-  //     })
-  //     .catch(error => {
-  //       this.setState({ error: true });
-  //     });
-  // }
+  componentDidMount() {
+    if (!this.props.ingredients) {
+      this.props.onGetThenSetInitialIngredientsAsync();
+    }
+  }
 
   purchaseHandler = () => {
     this.setState({ purchasing: true });
@@ -97,10 +92,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onAdjustIngredientHandler: (ingredient, action) =>
-    dispatch({
-      type: actionTypes.ADJUST_INGREDIENTS,
-      payload: { ingredient, action }
-    })
+    dispatch(actionCreators.adjustIngredientsAsync(ingredient, action)),
+  onGetThenSetInitialIngredientsAsync: () => {
+    dispatch(actionCreators.getThenSetInitialIngredientsAsync());
+  }
 });
 
 export default connect(
