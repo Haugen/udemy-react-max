@@ -131,8 +131,8 @@ class ContactData extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  ingredients: state.ingredients,
-  totalPrice: state.totalPrice
+  ingredients: state.bb.ingredients,
+  totalPrice: state.bb.totalPrice
 });
 
 const mapDispatchToProps = dispatch => {

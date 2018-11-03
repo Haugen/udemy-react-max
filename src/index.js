@@ -11,8 +11,8 @@ import burgerBuilderReducer from './store/reducers/burgerBuilder';
 import orderReducer from './store/reducers/order';
 
 const rootReducer = combineReducers({
-  burgerBuilderReducer,
-  orderReducer
+  bb: burgerBuilderReducer,
+  order: orderReducer
 });
 
 const logger = store => {
