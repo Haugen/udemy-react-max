@@ -2,11 +2,11 @@ import React from 'react';
 
 import Button from '../../../components/UI/Button/Button';
 import { firebase as axios } from '../../../util/Axios/Axios';
-import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 import { cloneDeep } from 'lodash';
 import { connect } from 'react-redux';
-import * as actionCreators from '../../../store/actions/actionTypes';
+import * as actionCreators from '../../../store/actions/index';
+import WithErrorHandling from '../../../util/WithErrorHandling/WithErrorHandling';
 
 class ContactData extends React.Component {
   state = {
@@ -17,42 +17,29 @@ class ContactData extends React.Component {
       zip: { id: 'zip', value: '' },
       city: { id: 'city', value: '' },
       deliveryMethod: { id: 'deliveryMethod', value: 'fastest' }
-    },
-    purchaseInProgress: false
+    }
   };
 
   createOrderHandler = event => {
     event.preventDefault();
-    this.setState({ purchaseInProgress: true });
 
-    axios
-      .post('/orders.json', {
-        ingredients: this.props.ingredients,
-        totalPrice: this.props.totalPrice,
-        customer: {
-          name: this.state.customer.name.value,
-          address: {
-            street: this.state.customer.street.value,
-            zip: this.state.customer.zip.value,
-            city: this.state.customer.city.value
-          },
-          email: this.state.customer.email.value
+    let order = {
+      ingredients: this.props.ingredients,
+      totalPrice: this.props.totalPrice.toFixed(2),
+      customer: {
+        name: this.state.customer.name.value,
+        address: {
+          street: this.state.customer.street.value,
+          zip: this.state.customer.zip.value,
+          city: this.state.customer.city.value
         },
-        deliveryMethod: this.state.customer.deliveryMethod.value
-      })
-      .then(() => {
-        this.setState({
-          purchaseInProgress: false
-        });
-        this.props.onGetThenSetInitialIngredientsAsync();
-        this.props.history.push('/');
-      })
-      .catch(error => {
-        console.log(error);
-        this.setState({
-          purchaseInProgress: false
-        });
-      });
+        email: this.state.customer.email.value
+      },
+      deliveryMethod: this.state.customer.deliveryMethod.value
+    };
+
+    this.props.onTryPurchaseBurger(order);
+    //this.props.history.push('/');
   };
 
   onChangeHandler = (event, id) => {
@@ -134,9 +121,6 @@ class ContactData extends React.Component {
       </form>
     );
 
-    if (this.state.purchaseInProgress) {
-      form = <Spinner />;
-    }
     return (
       <>
         <h2 className="mt-3">Enter your contact data</h2>
@@ -155,6 +139,9 @@ const mapDispatchToProps = dispatch => {
   return {
     onGetThenSetInitialIngredientsAsync: () => {
       dispatch(actionCreators.getThenSetInitialIngredientsAsync());
+    },
+    onTryPurchaseBurger: order => {
+      dispatch(actionCreators.tryPurchaseBurger(order));
     }
   };
 };
@@ -162,4 +149,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ContactData);
+)(WithErrorHandling(ContactData, axios));

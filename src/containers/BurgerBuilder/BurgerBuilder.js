@@ -8,13 +8,11 @@ import { firebase as axios } from '../../util/Axios/Axios';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandling from '../../util/WithErrorHandling/WithErrorHandling';
 import { connect } from 'react-redux';
-import * as actionCreators from '../../store/actions/actionTypes';
+import * as actionCreators from '../../store/actions/index';
 
 class BurgerBuilder extends React.Component {
   state = {
-    purchasing: false,
-    purchaseInProgress: false,
-    error: false
+    purchasing: false
   };
 
   componentDidMount() {
@@ -38,7 +36,7 @@ class BurgerBuilder extends React.Component {
   render() {
     let checkoutDisplay;
 
-    if (this.state.purchaseInProgress || !this.props.ingredients) {
+    if (!this.props.ingredients) {
       checkoutDisplay = <Spinner />;
     } else {
       checkoutDisplay = (
@@ -51,11 +49,11 @@ class BurgerBuilder extends React.Component {
       );
     }
 
-    let burger = this.state.error ? (
-      <p style={{ textAlign: 'center' }}>Ingredients can't be loaded</p>
-    ) : (
-      <Spinner />
-    );
+    let burger = <Spinner />;
+
+    if (this.props.error) {
+      burger = 'An error occured. Sorry!';
+    }
 
     if (this.props.ingredients) {
       burger = (
@@ -87,12 +85,13 @@ class BurgerBuilder extends React.Component {
 
 const mapStateToProps = state => ({
   totalPrice: state.totalPrice,
-  ingredients: state.ingredients
+  ingredients: state.ingredients,
+  error: state.error
 });
 
 const mapDispatchToProps = dispatch => ({
   onAdjustIngredientHandler: (ingredient, action) =>
-    dispatch(actionCreators.adjustIngredientsAsync(ingredient, action)),
+    dispatch(actionCreators.adjustIngredients(ingredient, action)),
   onGetThenSetInitialIngredientsAsync: () => {
     dispatch(actionCreators.getThenSetInitialIngredientsAsync());
   }
