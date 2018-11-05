@@ -10,8 +10,15 @@ export const purchaseBurgerSuccess = (orderId, orderData) => {
 
 export const purchaseBurgerFail = () => {};
 
+export const purchaseBurgerStart = () => {
+  return {
+    type: actionTypes.PURCHASE_BURGER_START
+  };
+};
+
 export const tryPurchaseBurger = order => {
   return dispatch => {
+    dispatch(purchaseBurgerStart());
     axios
       .post('/orders.json', order)
       .then(response => {

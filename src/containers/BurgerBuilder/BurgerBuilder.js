@@ -16,7 +16,7 @@ class BurgerBuilder extends React.Component {
   };
 
   componentDidMount() {
-    if (!this.props.ingredients) {
+    if (!this.props.ingredients || this.props.purchaseSuccess) {
       this.props.onGetThenSetInitialIngredientsAsync();
     }
   }
@@ -86,7 +86,8 @@ class BurgerBuilder extends React.Component {
 const mapStateToProps = state => ({
   totalPrice: state.bb.totalPrice,
   ingredients: state.bb.ingredients,
-  error: state.bb.error
+  error: state.bb.error,
+  purchaseSuccess: state.order.purchaseSuccess
 });
 
 const mapDispatchToProps = dispatch => ({

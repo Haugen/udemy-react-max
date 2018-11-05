@@ -18,6 +18,7 @@ const rootReducer = combineReducers({
 const logger = store => {
   return next => {
     return action => {
+      // Just an example custom middlewhere here. Carry on!
       const result = next(action);
       return result;
     };

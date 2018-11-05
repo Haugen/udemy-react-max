@@ -2,8 +2,9 @@ import React from 'react';
 
 import Summary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import ContactData from './ContactData/ContactData';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 class Checkout extends React.Component {
   checkoutCanceledHandler() {
@@ -18,15 +19,23 @@ class Checkout extends React.Component {
     return (
       <>
         <h1>Checkout</h1>
-        <Summary
-          checkoutCancele={() => this.checkoutCanceledHandler()}
-          checkoutProceed={() => this.checkoutProceedHandler()}
-          ingredients={this.props.ingredients}
-        />
-        <Route
-          path={this.props.match.url + '/contact-data'}
-          component={ContactData}
-        />
+        {!this.props.ingredients ? (
+          <Redirect to="/" />
+        ) : this.props.inProgress ? (
+          <Spinner />
+        ) : (
+          <>
+            <Summary
+              checkoutCancele={() => this.checkoutCanceledHandler()}
+              checkoutProceed={() => this.checkoutProceedHandler()}
+              ingredients={this.props.ingredients}
+            />
+            <Route
+              path={this.props.match.url + '/contact-data'}
+              component={ContactData}
+            />
+          </>
+        )}
       </>
     );
   }
@@ -34,7 +43,8 @@ class Checkout extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    ingredients: state.bb.ingredients
+    ingredients: state.bb.ingredients,
+    inProgress: state.order.purchaseInProgress
   };
 };
 

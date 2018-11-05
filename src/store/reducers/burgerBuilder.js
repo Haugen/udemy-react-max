@@ -41,7 +41,8 @@ const reducer = (state = initialState, action) => {
     case actionTypes.SET_INITIAL_INGREDIENTS:
       return updateObject(state, {
         ingredients: action.payload.ingredients,
-        error: false
+        error: false,
+        totalPrice: 4.0
       });
     case actionTypes.ADJUST_INGREDIENTS:
       return adjustIngredientsHelper(state, action);

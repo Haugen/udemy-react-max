@@ -3,7 +3,8 @@ import { updateObject } from '../utility';
 
 const initialState = {
   orders: [],
-  purchaseInProgress: false
+  purchaseInProgress: false,
+  purchaseSuccess: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -11,17 +12,25 @@ const reducer = (state = initialState, action) => {
     case actionTypes.PURCHASE_BURGER_SUCCESS:
       const newOrder = {
         ...action.payload.orderData,
-        id: action.payload.orderId
+        id: action.payload.orderId.name
       };
-      console.log(state);
-      console.log(newOrder);
+
       return {
         ...state,
         purchaseInProgress: false,
+        purchaseSuccess: true,
         orders: state.orders.concat(newOrder)
       };
     case actionTypes.PURCHASE_BURGER_FAIL:
-      return state;
+      return {
+        ...state,
+        purchaseInProgress: false
+      };
+    case actionTypes.PURCHASE_BURGER_START:
+      return {
+        ...state,
+        purchaseInProgress: true
+      };
     default:
       return state;
   }

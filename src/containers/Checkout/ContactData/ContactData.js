@@ -20,6 +20,12 @@ class ContactData extends React.Component {
     }
   };
 
+  componentDidMount() {
+    if (this.props.purchaseSuccess) {
+      this.props.history.push('/');
+    }
+  }
+
   createOrderHandler = event => {
     event.preventDefault();
 
@@ -39,7 +45,6 @@ class ContactData extends React.Component {
     };
 
     this.props.onTryPurchaseBurger(order);
-    //this.props.history.push('/');
   };
 
   onChangeHandler = (event, id) => {
@@ -130,10 +135,13 @@ class ContactData extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  ingredients: state.bb.ingredients,
-  totalPrice: state.bb.totalPrice
-});
+const mapStateToProps = state => {
+  return {
+    ingredients: state.bb.ingredients,
+    totalPrice: state.bb.totalPrice,
+    purchaseSuccess: state.order.purchaseSuccess
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
