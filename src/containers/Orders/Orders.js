@@ -1,56 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import Order from '../../components/Order/Order';
 import { firebase as axios } from '../../util/Axios/Axios';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import WithErrorHandling from '../../util/WithErrorHandling/WithErrorHandling';
+import { connect } from 'react-redux';
+import * as actionTypes from '../../store/actions/index';
 
-const orders = () => {
-  let displayOrders = 'No orders.';
-  const [orders, setOrders] = useState(<Spinner />);
+class orders extends React.Component {
+  componentDidMount() {
+    this.props.fetchOrders();
+  }
 
-  useEffect(() => {
-    axios
-      .get('orders.json')
-      .then(response => {
-        let orders = [];
-        if (response.data) {
-          for (let [orderId, order] of Object.entries(response.data)) {
-            orders.push({
-              Id: orderId,
-              ingredients: order.ingredients,
-              price: order.totalPrice
-            });
-          }
-        }
-        return orders;
-      })
-      .then(orders => {
-        if (orders.length > 0) {
-          displayOrders = [];
-          for (let i = 0; i < orders.length; i++) {
-            displayOrders.push(
-              <Order
-                key={orders[i].Id}
-                ingredients={orders[i].ingredients}
-                price={orders[i].price}
-              />
-            );
-          }
-        }
-        setOrders(displayOrders);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, {});
+  render() {
+    let propsOrders = this.props.orders;
+    let orders = <Spinner />;
 
-  return (
-    <>
-      <h1>Your orders</h1>
-      {orders}
-    </>
-  );
+    if (propsOrders.length > 0) {
+      orders = [];
+      for (let i = 0; i < propsOrders.length; i++) {
+        let curr = propsOrders[i];
+        orders.push(
+          <Order
+            key={curr.id}
+            ingredients={curr.order.ingredients}
+            price={curr.order.totalPrice}
+          />
+        );
+      }
+    }
+    return (
+      <>
+        <h1>Your orders</h1>
+        {orders}
+      </>
+    );
+  }
+}
+
+const mapStateToProp = state => {
+  return {
+    orders: state.order.orders
+  };
 };
 
-export default WithErrorHandling(orders, axios);
+const mapDispatchToProp = dispatch => {
+  return {
+    fetchOrders: () => dispatch(actionTypes.tryFetchOrders())
+  };
+};
+
+export default connect(
+  mapStateToProp,
+  mapDispatchToProp
+)(WithErrorHandling(orders, axios));

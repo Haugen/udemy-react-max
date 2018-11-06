@@ -2,4 +2,4 @@ export {
   adjustIngredients,
   getThenSetInitialIngredientsAsync
 } from './burgerBuilder';
-export { tryPurchaseBurger } from './order';
+export { tryPurchaseBurger, tryFetchOrders } from './order';

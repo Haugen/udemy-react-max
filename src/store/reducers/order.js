@@ -7,33 +7,53 @@ const initialState = {
   purchaseSuccess: false
 };
 
+/**
+ * The reducer, delegating actions to corresponding helper functions.
+ */
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.PURCHASE_BURGER_SUCCESS:
-      const newOrder = {
-        ...action.payload.orderData,
-        id: action.payload.orderId.name
-      };
-
-      return {
-        ...state,
-        purchaseInProgress: false,
-        purchaseSuccess: true,
-        orders: state.orders.concat(newOrder)
-      };
+      return purchareBurgerSuccess(state, action);
     case actionTypes.PURCHASE_BURGER_FAIL:
-      return {
-        ...state,
-        purchaseInProgress: false
-      };
+      return updateObject(state, { purchaseInProgress: false });
     case actionTypes.PURCHASE_BURGER_START:
-      return {
-        ...state,
-        purchaseInProgress: true
-      };
+      return updateObject(state, { purchaseInProgress: true });
+    case actionTypes.FETCH_ORDERS_SUCCESS:
+      return fetchOrdersSuccess(state, action);
+    case actionTypes.FETCH_ORDERS_FAIL:
+      return state;
     default:
       return state;
   }
+};
+
+const purchareBurgerSuccess = (state, action) => {
+  const newOrder = {
+    ...action.payload.orderData,
+    id: action.payload.orderId.name
+  };
+
+  return {
+    ...state,
+    purchaseInProgress: false,
+    purchaseSuccess: true,
+    orders: state.orders.concat(newOrder)
+  };
+};
+
+const fetchOrdersSuccess = (state, action) => {
+  let orders = [];
+  for (let [key, order] of Object.entries(action.payload.orders)) {
+    orders.push({
+      id: key,
+      order: order
+    });
+  }
+
+  return {
+    ...state,
+    orders: orders
+  };
 };
 
 export default reducer;

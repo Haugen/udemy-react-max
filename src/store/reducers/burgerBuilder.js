@@ -14,7 +14,31 @@ const INGREDIENTS_PRICES = {
   bacon: 0.8
 };
 
-function adjustIngredientsHelper(state, action) {
+/**
+ * The reducer, delegating actions to corresponding helper functions.
+ */
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case actionTypes.SET_INITIAL_INGREDIENTS:
+      return setInitialIngredients(state, action);
+    case actionTypes.ADJUST_INGREDIENTS:
+      return adjustIngredients(state, action);
+    case actionTypes.FETCH_INGREDIENTS_ERROR:
+      return updateObject(state, { error: true });
+    default:
+      return state;
+  }
+};
+
+const setInitialIngredients = (state, action) => {
+  return updateObject(state, {
+    ingredients: action.payload.ingredients,
+    error: false,
+    totalPrice: 4.0
+  });
+};
+
+const adjustIngredients = (state, action) => {
   let newIngredients = { ...state.ingredients };
   let totalPrice = state.totalPrice;
   let ingredient = action.payload.ingredient;
@@ -34,24 +58,6 @@ function adjustIngredientsHelper(state, action) {
     ingredients: newIngredients,
     totalPrice: totalPrice
   });
-}
-
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case actionTypes.SET_INITIAL_INGREDIENTS:
-      return updateObject(state, {
-        ingredients: action.payload.ingredients,
-        error: false,
-        totalPrice: 4.0
-      });
-    case actionTypes.ADJUST_INGREDIENTS:
-      return adjustIngredientsHelper(state, action);
-    case actionTypes.FETCH_INGREDIENTS_ERROR:
-      return updateObject(state, { error: true });
-
-    default:
-      return state;
-  }
 };
 
 export default reducer;

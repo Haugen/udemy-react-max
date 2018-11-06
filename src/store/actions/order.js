@@ -29,3 +29,25 @@ export const tryPurchaseBurger = order => {
       });
   };
 };
+
+export const fetchOrdersSuccess = orders => {
+  return {
+    type: actionTypes.FETCH_ORDERS_SUCCESS,
+    payload: { orders }
+  };
+};
+
+export const fetchOrdersFail = error => {};
+
+export const tryFetchOrders = () => {
+  return dispatch => {
+    axios
+      .get('orders.json')
+      .then(response => {
+        dispatch(fetchOrdersSuccess(response.data));
+      })
+      .catch(err => {
+        dispatch(fetchOrdersFail(err));
+      });
+  };
+};
