@@ -39,6 +39,11 @@ const toolbar = () => {
                 Posts
               </NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/sign-in">
+                Sign in/up
+              </NavLink>
+            </li>
           </ul>
         </div>
       </nav>
