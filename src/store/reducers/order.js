@@ -4,7 +4,8 @@ import { updateObject } from '../utility';
 const initialState = {
   orders: [],
   purchaseInProgress: false,
-  purchaseSuccess: false
+  purchaseSuccess: false,
+  error: false
 };
 
 /**
@@ -21,7 +22,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.FETCH_ORDERS_SUCCESS:
       return fetchOrdersSuccess(state, action);
     case actionTypes.FETCH_ORDERS_FAIL:
-      return state;
+      return updateObject(state, { error: true });
     default:
       return state;
   }
@@ -52,6 +53,7 @@ const fetchOrdersSuccess = (state, action) => {
 
   return {
     ...state,
+    error: false,
     orders: orders
   };
 };

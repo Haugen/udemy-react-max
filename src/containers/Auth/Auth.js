@@ -10,7 +10,7 @@ class Auth extends React.Component {
   state = {
     email: { id: 'email', value: '' },
     password: { id: 'password', value: '' },
-    isSignup: true
+    isSignup: false
   };
 
   handleAuth = e => {

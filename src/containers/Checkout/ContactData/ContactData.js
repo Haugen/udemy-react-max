@@ -44,7 +44,7 @@ class ContactData extends React.Component {
       deliveryMethod: this.state.customer.deliveryMethod.value
     };
 
-    this.props.onTryPurchaseBurger(order);
+    this.props.onTryPurchaseBurger(order, this.props.token);
   };
 
   onChangeHandler = (event, id) => {
@@ -139,7 +139,8 @@ const mapStateToProps = state => {
   return {
     ingredients: state.bb.ingredients,
     totalPrice: state.bb.totalPrice,
-    purchaseSuccess: state.order.purchaseSuccess
+    purchaseSuccess: state.order.purchaseSuccess,
+    token: state.auth.token
   };
 };
 
@@ -148,8 +149,8 @@ const mapDispatchToProps = dispatch => {
     onGetThenSetInitialIngredientsAsync: () => {
       dispatch(actionCreators.getThenSetInitialIngredientsAsync());
     },
-    onTryPurchaseBurger: order => {
-      dispatch(actionCreators.tryPurchaseBurger(order));
+    onTryPurchaseBurger: (order, token) => {
+      dispatch(actionCreators.tryPurchaseBurger(order, token));
     }
   };
 };

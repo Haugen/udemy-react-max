@@ -9,17 +9,20 @@ import * as actionTypes from '../../store/actions/index';
 
 class orders extends React.Component {
   componentDidMount() {
-    this.props.fetchOrders();
+    this.props.fetchOrders(this.props.userToken);
   }
 
   render() {
     let propsOrders = this.props.orders;
     let orders = <Spinner />;
 
-    if (propsOrders.length > 0) {
+    if (this.props.error) {
+      orders = 'There was an error';
+    } else if (propsOrders.length > 0) {
       orders = [];
       for (let i = 0; i < propsOrders.length; i++) {
         let curr = propsOrders[i];
+        console.log(curr);
         orders.push(
           <Order
             key={curr.id}
@@ -40,13 +43,15 @@ class orders extends React.Component {
 
 const mapStateToProp = state => {
   return {
-    orders: state.order.orders
+    orders: state.order.orders,
+    error: state.order.error,
+    userToken: state.auth.token
   };
 };
 
 const mapDispatchToProp = dispatch => {
   return {
-    fetchOrders: () => dispatch(actionTypes.tryFetchOrders())
+    fetchOrders: token => dispatch(actionTypes.tryFetchOrders(token))
   };
 };
 
