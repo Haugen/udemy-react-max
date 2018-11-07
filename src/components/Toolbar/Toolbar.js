@@ -30,21 +30,23 @@ const toolbar = props => {
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/orders">
-                Orders
-              </NavLink>
-            </li>
-            <li className="nav-item">
               <NavLink className="nav-link" to="/posts">
                 Posts
               </NavLink>
             </li>
             {props.userId ? (
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/logout">
-                  Logout
-                </NavLink>
-              </li>
+              <>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/orders">
+                    Orders
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/logout">
+                    Logout
+                  </NavLink>
+                </li>
+              </>
             ) : (
               <li className="nav-item">
                 <NavLink className="nav-link" to="/sign-in">

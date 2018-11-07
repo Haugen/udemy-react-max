@@ -64,6 +64,7 @@ class BurgerBuilder extends React.Component {
             orderBurger={this.purchaseHandler}
             adjustIngredient={this.props.onAdjustIngredientHandler}
             totalPrice={this.props.totalPrice.toFixed(2)}
+            userId={this.props.userId}
           />
         </>
       );
@@ -87,7 +88,8 @@ const mapStateToProps = state => ({
   totalPrice: state.bb.totalPrice,
   ingredients: state.bb.ingredients,
   error: state.bb.error,
-  purchaseSuccess: state.order.purchaseSuccess
+  purchaseSuccess: state.order.purchaseSuccess,
+  userId: state.auth.userId
 });
 
 const mapDispatchToProps = dispatch => ({

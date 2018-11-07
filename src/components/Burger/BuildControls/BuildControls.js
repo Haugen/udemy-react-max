@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import BuildControl from './BuildControl/BuildControl';
 import classes from './BuildControls.module.css';
@@ -6,6 +7,7 @@ import classes from './BuildControls.module.css';
 const buildControls = props => {
   let controls = [];
   let buttonDisabled = true;
+  let button;
 
   for (let [ingredient, amount] of Object.entries(props.ingredients)) {
     let ingredientLabel =
@@ -23,12 +25,8 @@ const buildControls = props => {
     );
   }
 
-  return (
-    <div className={classes.BuildControls}>
-      <p>
-        <strong>${props.totalPrice}</strong>
-      </p>
-      {controls}
+  if (props.userId) {
+    button = (
       <button
         disabled={buttonDisabled}
         onClick={props.orderBurger}
@@ -36,6 +34,22 @@ const buildControls = props => {
       >
         Order your burger!
       </button>
+    );
+  } else {
+    button = (
+      <Link to="/sign-in" className="btn btn-primary">
+        Sign up/in to order
+      </Link>
+    );
+  }
+
+  return (
+    <div className={classes.BuildControls}>
+      <p>
+        <strong>${props.totalPrice}</strong>
+      </p>
+      {controls}
+      {button}
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
@@ -48,6 +49,7 @@ class Auth extends React.Component {
 
     return (
       <>
+        {this.props.userId ? <Redirect to="/" /> : null}
         <h1>{currLabel}</h1>
         {this.props.error && (
           <div className="alert alert-warning">{this.props.error.message}</div>
@@ -98,7 +100,8 @@ class Auth extends React.Component {
 const mapStateToProps = state => {
   return {
     loading: state.auth.loading,
-    error: state.auth.error
+    error: state.auth.error,
+    userId: state.auth.userId
   };
 };
 

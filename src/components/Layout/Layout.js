@@ -4,8 +4,13 @@ import { withRouter } from 'react-router-dom';
 
 import classes from './layout.module.css';
 import Toolbar from '../Toolbar/Toolbar';
+import * as actionCreators from '../../store/actions/index';
 
 class Layout extends React.Component {
+  componentDidMount() {
+    this.props.checkAuth();
+  }
+
   render() {
     return (
       <>
@@ -22,4 +27,15 @@ const mapStateToProps = state => {
   };
 };
 
-export default withRouter(connect(mapStateToProps)(Layout));
+const mapDispatchToProps = dispatch => {
+  return {
+    checkAuth: () => dispatch(actionCreators.authCheckState())
+  };
+};
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Layout)
+);

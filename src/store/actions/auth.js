@@ -13,9 +13,16 @@ const authStart = () => {
 };
 
 const authSuccess = authData => {
+  const expiresOn = new Date(new Date().getTime() + authData.expiresIn * 1000);
+  localStorage.setItem('token', authData.idToken);
+  localStorage.setItem('userId', authData.localId);
+
   return {
     type: actionTypes.AUTH_SUCCESS,
-    payload: { token: authData.idToken, userId: authData.localId }
+    payload: {
+      token: authData.idToken,
+      userId: authData.localId
+    }
   };
 };
 
@@ -27,6 +34,9 @@ const authFail = error => {
 };
 
 export const logout = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('userId');
+
   return {
     type: actionTypes.AUTH_LOGOUT
   };
@@ -53,13 +63,29 @@ export const auth = (email, password, method) => {
     axios
       .post(postURL, authData)
       .then(response => {
-        console.log(response.data);
         dispatch(authSuccess(response.data));
         dispatch(checkAuthTimeout(response.data.expiresIn));
       })
       .catch(error => {
-        console.log(error.response.data.error);
         dispatch(authFail(error));
       });
+  };
+};
+
+export const authCheckState = () => {
+  return dispatch => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return;
+    } else {
+      const userId = localStorage.getItem('userId');
+
+      dispatch(
+        authSuccess({
+          idToken: token,
+          localId: userId
+        })
+      );
+    }
   };
 };
