@@ -33,6 +33,7 @@ class ContactData extends React.Component {
       ingredients: this.props.ingredients,
       totalPrice: this.props.totalPrice.toFixed(2),
       customer: {
+        userId: localStorage.getItem('userId'),
         name: this.state.customer.name.value,
         address: {
           street: this.state.customer.street.value,
