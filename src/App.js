@@ -8,6 +8,7 @@ import PageNotFound from './util/PageNotFound/PageNotFound';
 import Checkout from './containers/Checkout/Checkout';
 import Orders from './containers/Orders/Orders';
 import Auth from './containers/Auth/Auth';
+import Logout from './containers/Auth/Logout/Logout';
 
 class App extends Component {
   render() {
@@ -21,6 +22,7 @@ class App extends Component {
               <Route path="/orders" exact component={Orders} />
               <Route path="/sign-up" exact component={Auth} />
               <Route path="/sign-in" exact component={Auth} />
+              <Route path="/logout" exact component={Logout} />
               <Route path="/checkout" component={Checkout} />
               <Route path="/" exact component={BurgerBuilder} />
               <Route component={PageNotFound} />

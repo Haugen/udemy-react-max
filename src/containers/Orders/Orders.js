@@ -22,7 +22,6 @@ class orders extends React.Component {
       orders = [];
       for (let i = 0; i < propsOrders.length; i++) {
         let curr = propsOrders[i];
-        console.log(curr);
         orders.push(
           <Order
             key={curr.id}

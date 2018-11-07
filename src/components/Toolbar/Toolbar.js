@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import Logo from '../Logo/Logo';
 
-const toolbar = () => {
+const toolbar = props => {
   return (
     <>
       <nav className="navbar navbar-expand-md navbar-light bg-light">
@@ -39,11 +39,19 @@ const toolbar = () => {
                 Posts
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/sign-in">
-                Sign in/up
-              </NavLink>
-            </li>
+            {props.userId ? (
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/logout">
+                  Logout
+                </NavLink>
+              </li>
+            ) : (
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/sign-in">
+                  Sign in/up
+                </NavLink>
+              </li>
+            )}
           </ul>
         </div>
       </nav>
