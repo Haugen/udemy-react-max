@@ -5,4 +5,4 @@ export {
 
 export { tryPurchaseBurger, tryFetchOrders } from './order';
 
-export { auth } from './auth';
+export { auth, logout } from './auth';
