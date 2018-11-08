@@ -44,11 +44,17 @@ export const fetchOrdersFail = error => {
   };
 };
 
-export const tryFetchOrders = (token = null) => {
+export const tryFetchOrders = (token, userId) => {
   return dispatch => {
     axios
-      .get('orders.json?auth=' + token)
+      .get(
+        'orders.json?orderBy="customer/userId"&equalTo="' +
+          userId +
+          '"&auth=' +
+          token
+      )
       .then(response => {
+        console.log(response.data);
         dispatch(fetchOrdersSuccess(response.data));
       })
       .catch(err => {

@@ -9,7 +9,10 @@ import * as actionTypes from '../../store/actions/index';
 
 class orders extends React.Component {
   componentDidMount() {
-    this.props.fetchOrders(this.props.userToken);
+    this.props.fetchOrders(
+      this.props.userToken || localStorage.getItem('token'),
+      this.props.userId || localStorage.getItem('userId')
+    );
   }
 
   render() {
@@ -44,13 +47,15 @@ const mapStateToProp = state => {
   return {
     orders: state.order.orders,
     error: state.order.error,
-    userToken: state.auth.token
+    userToken: state.auth.token,
+    userId: state.auth.userId
   };
 };
 
 const mapDispatchToProp = dispatch => {
   return {
-    fetchOrders: token => dispatch(actionTypes.tryFetchOrders(token))
+    fetchOrders: (token, userId) =>
+      dispatch(actionTypes.tryFetchOrders(token, userId))
   };
 };
 
