@@ -2,7 +2,6 @@ import React from 'react';
 
 import { jsonPlaceholder as axios } from '../../util/Axios/Axios';
 import Post from './Post/Post';
-// import FullPost from './FullPost/FullPost';
 import classes from './Posts.module.css';
 import withErrorHandling from '../../util/WithErrorHandling/WithErrorHandling';
 import Spinner from '../UI/Spinner/Spinner';
@@ -77,10 +76,7 @@ class Posts extends React.Component {
 
     return (
       <>
-        <div className={classes.Posts}>
-          {/* <FullPost post={this.state.fullPost} /> */}
-          {posts}
-        </div>
+        <div className={classes.Posts}>{posts}</div>
       </>
     );
   }
