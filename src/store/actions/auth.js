@@ -13,7 +13,6 @@ const authStart = () => {
 };
 
 const authSuccess = authData => {
-  const expiresOn = new Date(new Date().getTime() + authData.expiresIn * 1000);
   localStorage.setItem('token', authData.idToken);
   localStorage.setItem('userId', authData.localId);
 

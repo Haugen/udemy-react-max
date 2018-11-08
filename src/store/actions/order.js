@@ -54,7 +54,6 @@ export const tryFetchOrders = (token, userId) => {
           token
       )
       .then(response => {
-        console.log(response.data);
         dispatch(fetchOrdersSuccess(response.data));
       })
       .catch(err => {
